@@ -14,7 +14,7 @@ public class Writer {
         try (FileWriter csvWriter = new FileWriter(filename, false)) {
             // Write the CSV headers
             if (new File(filename).length() == 0) {
-                csvWriter.append("ID,Title,Author,URL,Genre,Likes\n");
+                csvWriter.append("ID,Title,Author,URL,State,Genre,Likes\n");
             }
 
             // Write the webtoon data
@@ -32,6 +32,7 @@ public class Writer {
                         escapeCsv(webtoon.title()),
                         escapeCsv(webtoon.author()),
                         escapeCsv(webtoon.url()),
+                        escapeCsv(webtoon.state()),
                         escapeCsv(webtoon.genre()),
                         escapeCsv(formattedLikes)
                 );

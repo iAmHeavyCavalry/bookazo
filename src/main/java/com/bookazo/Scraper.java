@@ -46,11 +46,24 @@ public class Scraper {
                     String genre = genreUrl.substring(genreUrl.lastIndexOf('/') + 1, genreUrl.indexOf('?'));
                     String likes = getTextSafe(element.select("em.grade_num"));
 
+                    // Extract state based on the class names
+                    String state;
+                    if (!element.select("span.txt_ico_completed").isEmpty()) {
+                        state = "END"; // Completed series
+                    } else if (!element.select("span.txt_ico_hiatus").isEmpty()) {
+                        state = "PAUSED"; // On hiatus
+                    } else if (!element.select("span.txt_ico_up").isEmpty()) {
+                        state = "UP"; // Recently new chapter added today
+                    } else {
+                        state = "AIR"; // Ongoing series
+                    }
+
                     // Debug output to check the values along with the ID
                     System.out.println("ID: " + id);
                     System.out.println("Title: " + title);
                     System.out.println("Author: " + author);
                     System.out.println("URL: " + url);
+                    System.out.println("State: " + state);
                     System.out.println("Genre: " + genre);
                     System.out.println("Likes: " + likes);
 
@@ -62,7 +75,7 @@ public class Scraper {
                     }
 
                     // Create and add Webtoon object with the ID
-                    webtoons.add(new Webtoon(id++, title, author, url, genre, likes));
+                    webtoons.add(new Webtoon(id++, title, author, url, state, genre, likes));
                 }
             } catch (Exception e) {
                 logger.error("Error while scraping the URL: {}", genreUrl, e); // Log the error
