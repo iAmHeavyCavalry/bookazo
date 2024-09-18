@@ -18,11 +18,19 @@ public class Scraper {
             "https://www.webtoons.com/en/genres/drama?sortOrder=READ_COUNT",
             "https://www.webtoons.com/en/genres/fantasy?sortOrder=READ_COUNT",
             "https://www.webtoons.com/en/genres/action?sortOrder=READ_COUNT",
+            "https://www.webtoons.com/en/genres/comedy?sortOrder=READ_COUNT",
+            "https://www.webtoons.com/en/genres/slice_of_life?sortOrder=READ_COUNT",
+            "https://www.webtoons.com/en/genres/romance?sortOrder=READ_COUNT",
+            "https://www.webtoons.com/en/genres/super_hero?sortOrder=READ_COUNT",
+            "https://www.webtoons.com/en/genres/sf?sortOrder=READ_COUNT",
+            "https://www.webtoons.com/en/genres/thriller?sortOrder=READ_COUNT",
+            "https://www.webtoons.com/en/genres/supernatural?sortOrder=READ_COUNT",
             // Add more genre URLs as needed
     };
 
     public List<Webtoon> scrapeWebtoons() {
         List<Webtoon> webtoons = new ArrayList<>();
+        int id = 1;  // Starting ID from 1
 
         for (String genreUrl : GENRE_URLS) {
             try {
@@ -30,13 +38,28 @@ public class Scraper {
                 Elements elements = doc.select("a.card_item"); // Selector for each webtoon card
 
                 for (Element element : elements) {
-                    String title = element.select("p.subj").text(); // Extract title
-                    String author = element.select("p.author").text(); // Extract author
-                    String url = element.absUrl("href"); // Get absolute URL
-                    String genre = genreUrl.substring(genreUrl.lastIndexOf('/') + 1, genreUrl.indexOf('?')); // Extract genre from the URL
+                    // Extract title and author with robustness
+                    String title = getTextSafe(element.select("p.subj"));
+                    String author = getTextSafe(element.select("p.author"));
+                    String url = element.absUrl("href");
+                    String genre = genreUrl.substring(genreUrl.lastIndexOf('/') + 1, genreUrl.indexOf('?'));
 
-                    // Create and add Webtoon object
-                    webtoons.add(new Webtoon(title, author, url, genre));
+                    // Debug output to check the values along with the ID
+                    System.out.println("ID: " + id);
+                    System.out.println("Title: " + title);
+                    System.out.println("Author: " + author);
+                    System.out.println("URL: " + url);
+                    System.out.println("Genre: " + genre);
+
+                    // Log the full element HTML if title or author is empty
+                    if (title.isEmpty() || author.isEmpty() || url.isEmpty()) {
+                        logger.warn("Missing information for entry - ID: {}, Title: {}, Author: {}, URL: {}", id, title, author, url);
+                        logger.warn("Element HTML: {}", element.outerHtml()); // Log the problematic element
+                        continue; // Skip this entry if any information is missing
+                    }
+
+                    // Create and add Webtoon object with the ID
+                    webtoons.add(new Webtoon(id++, title, author, url, genre));
                 }
             } catch (Exception e) {
                 logger.error("Error while scraping the URL: {}", genreUrl, e); // Log the error
@@ -44,4 +67,16 @@ public class Scraper {
         }
         return webtoons;
     }
+
+    private String getTextSafe(Elements elements) {
+        if (elements.isEmpty()) {
+            return "";
+        }
+        // Join the text from all matching elements to handle cases where the title might be split
+        return String.join(" ", elements.eachText()).trim();
+    }
 }
+
+
+
+

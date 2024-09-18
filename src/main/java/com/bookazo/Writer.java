@@ -11,18 +11,19 @@ public class Writer {
     private static final Logger logger = LoggerFactory.getLogger(Writer.class);
 
     public void writeToFile(List<Webtoon> webtoons, String filename) {
-        try (FileWriter csvWriter = new FileWriter(filename, true)) { // Set append mode to true
-            // Write the CSV headers if the file is empty
+        try (FileWriter csvWriter = new FileWriter(filename, false)) {
+            // Write the CSV headers
             if (new File(filename).length() == 0) {
-                csvWriter.append("Title,Author,URL,Genre\n"); // Update to include Author and Genre
+                csvWriter.append("ID,Title,Author,URL,Genre\n"); // Update to include Author and Genre
             }
 
             // Write the webtoon data
             for (Webtoon webtoon : webtoons) {
-                csvWriter.append(webtoon.title()).append(",")
-                        .append(webtoon.author()).append(",") // Include author
-                        .append(webtoon.url()).append(",")
-                        .append(webtoon.genre()).append("\n"); // Include genre
+                csvWriter.append(String.valueOf(webtoon.id())).append(",")
+                        .append(escapeCsv(webtoon.title())).append(",")
+                        .append(escapeCsv(webtoon.author())).append(",")
+                        .append(escapeCsv(webtoon.url())).append(",")
+                        .append(escapeCsv(webtoon.genre())).append("\n");
             }
 
             csvWriter.flush();
@@ -31,4 +32,16 @@ public class Writer {
             logger.error("Error while writing to the file: {}", filename, e);
         }
     }
+
+    // Helper method to escape special characters in CSV fields
+    private String escapeCsv(String data) {
+        if (data.contains(",") || data.contains("\"") || data.contains("\n")) {
+            // Escape double quotes by replacing them with two double quotes
+            data = data.replace("\"", "\"\"");
+            // Wrap the field in double quotes
+            return "\"" + data + "\"";
+        }
+        return data;
+    }
 }
+

@@ -16,7 +16,7 @@ public class Main {
             System.out.println(webtoon);
         }
 
-        // Save the results to a file (Optionally)
+        // Save the results to a file
         Writer writer = new Writer();
         writer.writeToFile(webtoons, "webtoons.csv");
 
