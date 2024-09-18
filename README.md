@@ -2,7 +2,7 @@
 
 # Current Version: 1.0.SNAPSHOT
 
-# This project implements a personalized book recommendation system that analyzes 
+  This project implements a personalized book recommendation system that analyzes 
   user reading habits to suggest titles tailored to individual preferences. 
   Using data scraping techniques, it gathers information from Webtoon’s extensive 
   library, including titles, authors, and genres, and organizes them in a 
