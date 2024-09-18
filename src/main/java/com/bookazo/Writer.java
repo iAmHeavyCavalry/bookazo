@@ -59,7 +59,7 @@ public class Writer {
     // Helper method to convert likes for CSV output
     private String convertLikesForCsv(String likes) {
         if (likes.isEmpty()) {
-            return "0"; // Default to "0" if likes string is empty
+            return "0";
         }
 
         // Remove any leading or trailing whitespace
@@ -68,18 +68,18 @@ public class Writer {
         // Check if likes ends with "M" and convert accordingly
         if (likes.toUpperCase().endsWith("M")) {
             // Remove 'M' and convert to numeric
-            likes = likes.substring(0, likes.length() - 1).trim(); // Remove the "M"
+            likes = likes.substring(0, likes.length() - 1).trim();
             try {
-                double numericLikes = Double.parseDouble(likes) * 1_000_000; // Convert to numeric
+                double numericLikes = Double.parseDouble(likes) * 1_000_000;
                 return String.format("%,d", (int) numericLikes); // Format with commas and return
             } catch (NumberFormatException e) {
                 logger.error("Failed to parse likes '{}': {}", likes, e.getMessage());
-                return "0"; // Return 0 or handle the error as you see fit
+                return "0";
             }
         }
 
         // If not in "M" format, return the likes as is
-        return likes; // Return the raw likes string (no conversion for K yet)
+        return likes;
     }
 }
 

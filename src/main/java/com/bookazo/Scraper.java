@@ -15,6 +15,7 @@ public class Scraper {
 
     // List of genre URLs to scrape
     private static final String[] GENRE_URLS = {
+
             "https://www.webtoons.com/en/genres/drama?sortOrder=READ_COUNT",
             "https://www.webtoons.com/en/genres/fantasy?sortOrder=READ_COUNT",
             "https://www.webtoons.com/en/genres/action?sortOrder=READ_COUNT",
@@ -25,7 +26,7 @@ public class Scraper {
             "https://www.webtoons.com/en/genres/sf?sortOrder=READ_COUNT",
             "https://www.webtoons.com/en/genres/thriller?sortOrder=READ_COUNT",
             "https://www.webtoons.com/en/genres/supernatural?sortOrder=READ_COUNT",
-            // Add more genre URLs as needed
+
     };
 
     public List<Webtoon> scrapeWebtoons() {
