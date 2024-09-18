@@ -14,16 +14,30 @@ public class Writer {
         try (FileWriter csvWriter = new FileWriter(filename, false)) {
             // Write the CSV headers
             if (new File(filename).length() == 0) {
-                csvWriter.append("ID,Title,Author,URL,Genre\n"); // Update to include Author and Genre
+                csvWriter.append("ID,Title,Author,URL,Genre,Likes\n");
             }
 
             // Write the webtoon data
             for (Webtoon webtoon : webtoons) {
-                csvWriter.append(String.valueOf(webtoon.id())).append(",")
-                        .append(escapeCsv(webtoon.title())).append(",")
-                        .append(escapeCsv(webtoon.author())).append(",")
-                        .append(escapeCsv(webtoon.url())).append(",")
-                        .append(escapeCsv(webtoon.genre())).append("\n");
+
+                // Get the original likes to log
+                String originalLikes = webtoon.likes();
+
+                // Convert likes for CSV output
+                String formattedLikes = convertLikesForCsv(originalLikes);
+
+                // Prepare the CSV line for each webtoon
+                String csvLine = String.join(",",
+                        String.valueOf(webtoon.id()),
+                        escapeCsv(webtoon.title()),
+                        escapeCsv(webtoon.author()),
+                        escapeCsv(webtoon.url()),
+                        escapeCsv(webtoon.genre()),
+                        escapeCsv(formattedLikes)
+                );
+
+                csvWriter.append(csvLine).append("\n");
+
             }
 
             csvWriter.flush();
@@ -36,12 +50,36 @@ public class Writer {
     // Helper method to escape special characters in CSV fields
     private String escapeCsv(String data) {
         if (data.contains(",") || data.contains("\"") || data.contains("\n")) {
-            // Escape double quotes by replacing them with two double quotes
             data = data.replace("\"", "\"\"");
-            // Wrap the field in double quotes
             return "\"" + data + "\"";
         }
         return data;
+    }
+
+    // Helper method to convert likes for CSV output
+    private String convertLikesForCsv(String likes) {
+        if (likes.isEmpty()) {
+            return "0"; // Default to "0" if likes string is empty
+        }
+
+        // Remove any leading or trailing whitespace
+        likes = likes.trim();
+
+        // Check if likes ends with "M" and convert accordingly
+        if (likes.toUpperCase().endsWith("M")) {
+            // Remove 'M' and convert to numeric
+            likes = likes.substring(0, likes.length() - 1).trim(); // Remove the "M"
+            try {
+                double numericLikes = Double.parseDouble(likes) * 1_000_000; // Convert to numeric
+                return String.format("%,d", (int) numericLikes); // Format with commas and return
+            } catch (NumberFormatException e) {
+                logger.error("Failed to parse likes '{}': {}", likes, e.getMessage());
+                return "0"; // Return 0 or handle the error as you see fit
+            }
+        }
+
+        // If not in "M" format, return the likes as is
+        return likes; // Return the raw likes string (no conversion for K yet)
     }
 }
 

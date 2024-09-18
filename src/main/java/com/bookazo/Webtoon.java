@@ -1,6 +1,6 @@
 package com.bookazo;
 
-record Webtoon(int id, String title, String author, String url, String genre) {
+record Webtoon(int id, String title, String author, String url, String genre, String likes) {
 
     @Override
     public String toString() {
@@ -10,6 +10,7 @@ record Webtoon(int id, String title, String author, String url, String genre) {
                 ", author='" + author + '\'' +
                 ", url='" + url + '\'' +
                 ", genre='" + genre + '\'' +
+                ", likes='" + likes + '\'' +
                 '}';
     }
 }

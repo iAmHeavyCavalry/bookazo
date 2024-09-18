@@ -43,6 +43,7 @@ public class Scraper {
                     String author = getTextSafe(element.select("p.author"));
                     String url = element.absUrl("href");
                     String genre = genreUrl.substring(genreUrl.lastIndexOf('/') + 1, genreUrl.indexOf('?'));
+                    String likes = getTextSafe(element.select("em.grade_num"));
 
                     // Debug output to check the values along with the ID
                     System.out.println("ID: " + id);
@@ -50,6 +51,7 @@ public class Scraper {
                     System.out.println("Author: " + author);
                     System.out.println("URL: " + url);
                     System.out.println("Genre: " + genre);
+                    System.out.println("Likes: " + likes);
 
                     // Log the full element HTML if title or author is empty
                     if (title.isEmpty() || author.isEmpty() || url.isEmpty()) {
@@ -59,7 +61,7 @@ public class Scraper {
                     }
 
                     // Create and add Webtoon object with the ID
-                    webtoons.add(new Webtoon(id++, title, author, url, genre));
+                    webtoons.add(new Webtoon(id++, title, author, url, genre, likes));
                 }
             } catch (Exception e) {
                 logger.error("Error while scraping the URL: {}", genreUrl, e); // Log the error
