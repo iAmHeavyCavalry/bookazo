@@ -1,4 +1,5 @@
 package com.bookazo;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -11,10 +12,11 @@ public class Writer {
     private static final Logger logger = LoggerFactory.getLogger(Writer.class);
 
     public void writeToFile(List<Webtoon> webtoons, String filename) {
-        try (FileWriter csvWriter = new FileWriter(filename, false)) {
-            // Write the CSV headers
+        try (FileWriter csvWriter = new FileWriter(filename, false);
+             BufferedWriter bufferedWriter = new BufferedWriter(csvWriter)) {
+            // Write the CSV headers if file is empty
             if (new File(filename).length() == 0) {
-                csvWriter.append("ID,Title,Author,URL,State,Genre,Likes\n");
+                bufferedWriter.append("ID,Title,Author,URL,State,Genre,Likes\n");
             }
 
             // Write the webtoon data
@@ -37,12 +39,12 @@ public class Writer {
                         escapeCsv(formattedLikes)
                 );
 
-                csvWriter.append(csvLine).append("\n");
+                bufferedWriter.append(csvLine).append("\n");
 
             }
 
-            csvWriter.flush();
-            System.out.println("Data saved to " + filename);
+            bufferedWriter.flush();
+            logger.info("Data saved to {}", filename);
         } catch (IOException e) {
             logger.error("Error while writing to the file: {}", filename, e);
         }

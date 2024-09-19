@@ -1,7 +1,5 @@
 package com.bookazo;
 import javax.swing.*;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.List;
@@ -40,14 +38,11 @@ public class Window extends JFrame{
         listModel = new DefaultListModel<>();
         titleSuggestionList = new JList<>(listModel);
         titleSuggestionList.setVisible(false); // Hide the suggestion list by default
-        titleSuggestionList.addListSelectionListener(new ListSelectionListener() {
-            @Override
-            public void valueChanged(ListSelectionEvent e) {
-                if (!e.getValueIsAdjusting()) {
-                    String selectedTitle = titleSuggestionList.getSelectedValue();
-                    titleTextField.setText(selectedTitle);
-                    titleSuggestionList.setVisible(false); // Hide suggestions after selection
-                }
+        titleSuggestionList.addListSelectionListener(e -> {
+            if (!e.getValueIsAdjusting()) {
+                String selectedTitle = titleSuggestionList.getSelectedValue();
+                titleTextField.setText(selectedTitle);
+                titleSuggestionList.setVisible(false); // Hide suggestions after selection
             }
         });
 
@@ -84,11 +79,12 @@ public class Window extends JFrame{
             return;
         }
 
-        // Get titles and filter based on input
-        List<String> titles = userDataHandler.getWebtoonTitles();
-        for (String title : titles) {
-            if (title.toLowerCase().startsWith(input.toLowerCase())) {
-                listModel.addElement(title); // Add matching titles
+        // Get the list of Webtoon objects and filter based on input
+        List<Webtoon> titles = userDataHandler.getWebtoonTitles();
+        for (Webtoon webtoon : titles) {
+            // Access the title field of the Webtoon record
+            if (webtoon.title().toLowerCase().startsWith(input.toLowerCase())) {
+                listModel.addElement(webtoon.title()); // Add matching titles (the title string)
             }
         }
 
@@ -99,7 +95,7 @@ public class Window extends JFrame{
 
     private void submitRating() {
         String username = usernameField.getText().trim();
-        String title = (String) titleTextField.getText().trim();
+        String title = titleTextField.getText().trim();
         Integer rating = (Integer) ratingSpinner.getValue();
 
         // Validate user input
@@ -108,8 +104,16 @@ public class Window extends JFrame{
             return;
         }
 
+        // Get the Webtoon object by title to get the titleId
+        Webtoon selectedWebtoon = userDataHandler.getWebtoonByTitle(title);
+        if (selectedWebtoon == null) {
+            JOptionPane.showMessageDialog(this, "Webtoon title not found. Please check the spelling.", "Input Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
         // Create a new UserWebtoonRating object and save it
-        UserDataHandler.UserWebtoonRating webtoonRating = new UserDataHandler.UserWebtoonRating(username, title, rating);
+        UserDataHandler.UserWebtoonRating webtoonRating = new UserDataHandler.UserWebtoonRating(
+                username, selectedWebtoon.id(), selectedWebtoon.title(), rating);
         userDataHandler.saveUserWebtoonRating(webtoonRating);
 
         // Show success message and clear fields
