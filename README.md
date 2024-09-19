@@ -20,11 +20,11 @@
 - [x] Data scraping from Webtoon to gather book titles and author information.
 - [x] CSV file output for data storage and further analysis.
 - [ ] Future enhancements planned for advanced recommendation algorithms.
-
-
-
-
-
+<br />
+<br />
+<br />
+<br />
+<br />
 > [!NOTE]
 > This project scrapes data from Webtoons and saves it in a CSV file format.
 > Please ensure you have stable internet connectivity while scraping data,
