@@ -15,7 +15,6 @@
   structured format for easy access and analysis.
   
 <br />
-<br />
 
 ### Key Features:
 
