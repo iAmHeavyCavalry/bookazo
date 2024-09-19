@@ -13,7 +13,7 @@
   Using data scraping techniques, it gathers information from Webtoon’s extensive 
   library, including titles, authors, and genres, and organizes them in a 
   structured format for easy access and analysis.
-  
+  <br />
 
 ### Key Features:
 
@@ -23,8 +23,7 @@
 <br />
 <br />
 <br />
-<br />
-<br />
+
 > [!NOTE]
 > This project scrapes data from Webtoons and saves it in a CSV file format.
 > Please ensure you have stable internet connectivity while scraping data,
