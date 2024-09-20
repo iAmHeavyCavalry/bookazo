@@ -8,15 +8,15 @@ import java.util.Objects;
 public class Window extends JFrame{
 
     private final JTextField usernameField;
-    private final JTextField titleTextField; // Use JTextField instead of JComboBox
+    private final JTextField titleTextField;
     private final JSpinner ratingSpinner;
     private final UserDataHandler userDataHandler;
-    private final JList<String> titleSuggestionList; // List for showing suggestions
-    private final DefaultListModel<String> listModel; // Model for the JList
+    private final JList<String> titleSuggestionList;
+    private final DefaultListModel<String> listModel;
 
     public Window() {
         // Initialize the UserDataHandler
-        userDataHandler = new UserDataHandler(); // Initialize user data handler
+        userDataHandler = new UserDataHandler();
 
         // Set up the frame
         setTitle("Webtoon Rating");
@@ -51,7 +51,7 @@ public class Window extends JFrame{
             @Override
             public void keyReleased(KeyEvent e) {
                 String input = titleTextField.getText();
-                updateTitleSuggestions(input); // Update suggestions based on input
+                updateTitleSuggestions(input);
             }
         });
 
@@ -73,9 +73,9 @@ public class Window extends JFrame{
     }
 
     private void updateTitleSuggestions(String input) {
-        listModel.clear(); // Clear previous suggestions
+        listModel.clear();
         if (input.isEmpty()) {
-            titleSuggestionList.setVisible(false); // Hide if input is empty
+            titleSuggestionList.setVisible(false);
             return;
         }
 
@@ -84,11 +84,11 @@ public class Window extends JFrame{
         for (Webtoon webtoon : titles) {
             // Access the title field of the Webtoon record
             if (webtoon.title().toLowerCase().startsWith(input.toLowerCase())) {
-                listModel.addElement(webtoon.title()); // Add matching titles (the title string)
+                listModel.addElement(webtoon.title());
             }
         }
 
-        titleSuggestionList.setVisible(!listModel.isEmpty()); // Show suggestions if not empty
+        titleSuggestionList.setVisible(!listModel.isEmpty());
         titleSuggestionList.revalidate();
         titleSuggestionList.repaint();
     }
