@@ -85,7 +85,7 @@ public class UserDataHandler {
         return null; // Return null if no match found
     }
 
-    // Inner class representing user-inputted webtoons and their ratings
+        // Inner class representing user-inputted webtoons and their ratings
         public record UserWebtoonRating(String username, int id, String title, Integer rating) {
 
     }

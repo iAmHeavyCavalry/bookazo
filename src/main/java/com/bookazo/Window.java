@@ -37,12 +37,12 @@ public class Window extends JFrame{
         // Create the suggestion list and model
         listModel = new DefaultListModel<>();
         titleSuggestionList = new JList<>(listModel);
-        titleSuggestionList.setVisible(false); // Hide the suggestion list by default
+        titleSuggestionList.setVisible(false);
         titleSuggestionList.addListSelectionListener(e -> {
             if (!e.getValueIsAdjusting()) {
                 String selectedTitle = titleSuggestionList.getSelectedValue();
                 titleTextField.setText(selectedTitle);
-                titleSuggestionList.setVisible(false); // Hide suggestions after selection
+                titleSuggestionList.setVisible(false);
             }
         });
 
@@ -56,7 +56,7 @@ public class Window extends JFrame{
         });
 
         // Add title suggestion list to the frame
-        add(new JScrollPane(titleSuggestionList)); // Add scroll pane for suggestions
+        add(new JScrollPane(titleSuggestionList));
 
 
         // Rating Field

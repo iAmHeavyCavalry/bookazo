@@ -8,18 +8,18 @@ public class LoadingScreen extends JFrame {
         setTitle("Loading...");
         setSize(300, 100);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLocationRelativeTo(null); // Center on screen
+        setLocationRelativeTo(null);
         setLayout(new BorderLayout());
 
         JProgressBar progressBar = new JProgressBar();
-        progressBar.setIndeterminate(true); // This makes the progress bar continuously animate
+        progressBar.setIndeterminate(true);
         add(progressBar, BorderLayout.CENTER);
 
-        setVisible(true); // Make the loading screen visible
+        setVisible(true);
     }
 
     public void close() {
-        dispose(); // Close the loading screen
+        dispose();
     }
 
 }
