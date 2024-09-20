@@ -40,7 +40,7 @@ public class Main {
                 } catch (Exception e) {
                     logger.error("An error occurred while retrieving the webtoons: ", e);
                 } finally {
-                    loadingScreen.close(); // Close the loading screen
+                    loadingScreen.close();
                     // Launch the UI for webtoon management
                     SwingUtilities.invokeLater(() -> {
                         Window window = new Window();
@@ -50,6 +50,6 @@ public class Main {
             }
         };
 
-        worker.execute(); // Start the worker thread
+        worker.execute();
     }
 }
