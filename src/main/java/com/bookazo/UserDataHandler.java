@@ -20,25 +20,25 @@ public class UserDataHandler {
     // Load webtoons from CSV file
     private void loadWebtoons() {
         try (BufferedReader reader = new BufferedReader(new FileReader(SCRAPED_CSV_FILE))) {
-            String line = reader.readLine(); // Read the header
+            String line = reader.readLine();
             if (line == null || !line.contains("ID,Title")) {
                 logger.log(Level.SEVERE, "CSV file does not contain the expected header.");
-                return; // Exit if header is missing
+                return;
             }
 
             // Continue reading from the first data line
             while ((line = reader.readLine()) != null) {
-                String[] values = line.split(","); // Split the CSV line by commas
+                String[] values = line.split(",");
 
-                if (values.length >= 7) { // Ensure there are enough columns
+                if (values.length >= 7) {
                     try {
-                        int id = Integer.parseInt(values[0].trim()); // Parse ID
-                        String title = values[1].trim(); // Get Title
-                        String author = values[2].trim(); // Get Author
-                        String url = values[3].trim(); // Get URL
-                        String state = values[4].trim(); // Get State
-                        String genre = values[5].trim(); // Get Genre
-                        String likes = values[6].trim(); // Get Likes
+                        int id = Integer.parseInt(values[0].trim());
+                        String title = values[1].trim();
+                        String author = values[2].trim();
+                        String url = values[3].trim();
+                        String state = values[4].trim();
+                        String genre = values[5].trim();
+                        String likes = values[6].trim();
 
                         // Create and add Webtoon object to the list
                         webtoons.add(new Webtoon(id, title, author, url, state, genre, likes));
@@ -79,10 +79,10 @@ public class UserDataHandler {
     public Webtoon getWebtoonByTitle(String title) {
         for (Webtoon webtoon : webtoons) {
             if (webtoon.title().equalsIgnoreCase(title)) {
-                return webtoon; // Return the Webtoon object that matches the title
+                return webtoon;
             }
         }
-        return null; // Return null if no match found
+        return null;
     }
 
         // Inner class representing user-inputted webtoons and their ratings
