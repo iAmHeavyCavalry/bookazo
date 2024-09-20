@@ -31,12 +31,12 @@ public class Scraper {
 
     public List<Webtoon> scrapeWebtoons() {
         List<Webtoon> webtoons = new ArrayList<>();
-        int id = 1;  // Starting ID from 1
+        int id = 1;
 
         for (String genreUrl : GENRE_URLS) {
             try {
                 Document doc = Jsoup.connect(genreUrl).get();
-                Elements elements = doc.select("a.card_item"); // Selector for each webtoon card
+                Elements elements = doc.select("a.card_item");
 
                 for (Element element : elements) {
                     // Extract title and author with robustness
@@ -70,15 +70,15 @@ public class Scraper {
                     // Log the full element HTML if title or author is empty
                     if (title.isEmpty() || author.isEmpty() || url.isEmpty()) {
                         logger.warn("Missing information for entry - ID: {}, Title: {}, Author: {}, URL: {}", id, title, author, url);
-                        logger.warn("Element HTML: {}", element.outerHtml()); // Log the problematic element
-                        continue; // Skip this entry if any information is missing
+                        logger.warn("Element HTML: {}", element.outerHtml());
+                        continue;
                     }
 
                     // Create and add Webtoon object with the ID
                     webtoons.add(new Webtoon(id++, title, author, url, state, genre, likes));
                 }
             } catch (Exception e) {
-                logger.error("Error while scraping the URL: {}", genreUrl, e); // Log the error
+                logger.error("Error while scraping the URL: {}", genreUrl, e);
             }
         }
         return webtoons;
