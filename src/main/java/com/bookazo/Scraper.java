@@ -39,7 +39,7 @@ public class Scraper {
                 Elements elements = doc.select("a.card_item");
 
                 for (Element element : elements) {
-                    // Extract title and author with robustness
+                    // Extract elements
                     String title = getTextSafe(element.select("p.subj"));
                     String author = getTextSafe(element.select("p.author"));
                     String url = element.absUrl("href");
