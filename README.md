@@ -41,11 +41,11 @@
 > Ensure compliance with Webtoons' terms of service when using this tool.
 
 > [!WARNING]
-> Scraping large amounts of data from websites can sometimes cause the site to
-> block your IP or slow down the process. Avoid sending too many requests in a
-> short period of time to prevent being rate-limited.
-
-> [!CAUTION]
 > Be aware that the structure of the Webtoons website may change over time.
 > If the website's layout or class names are updated, you may need to adjust
 > the HTML selectors in the `Scraper` class accordingly.
+
+> [!CAUTION]
+> Scraping large amounts of data from websites can sometimes cause the site to
+> block your IP or slow down the process. Avoid sending too many requests in a
+> short period of time to prevent being rate-limited.
