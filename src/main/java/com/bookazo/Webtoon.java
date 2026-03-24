@@ -1,5 +1,6 @@
 package com.bookazo;
 
+//Structure of a Webtoon object
 record Webtoon(int id, String title, String author, String url, String state, String genre, String likes) {
 
     @Override
